@@ -8,10 +8,13 @@ import { insights } from "../../../constants";
 const Insights = () => (
   <section className="paddings relative z-10">
     <motion.div
-      variants={staggerContainer(0.1, 0.1)}
+      variants={staggerContainer({
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      })}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.25 }} // Ensure animation triggers only once
+      viewport={{ once: true, amount: 0.25 }}
       className="innerWidth mx-auto flex flex-col"
     >
       <TypingText title="Insight" textStyles="text-center" />

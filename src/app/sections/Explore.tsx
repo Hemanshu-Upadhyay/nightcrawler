@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-
 import { staggerContainer } from "../utils/motion";
 import { ExploreCard, TitleText, TypingText } from "../components";
 import { exploreWorlds } from "../../../constants";
@@ -14,30 +13,23 @@ interface World {
   description: string;
 }
 
-const Explore: React.FC = () => {
-  const [active, setActive] = useState<string>("world-2");
+const Explore = () => {
+  const [active, setActive] = useState("world-2");
 
-  const worlds = useMemo(
-    () =>
-      exploreWorlds.map((world: World, index: number) => (
-        <ExploreCard
-          key={world.id}
-          {...world}
-          index={index}
-          active={active}
-          handleClick={setActive}
-        />
-      )),
-    [active]
-  );
+  const handleCardClick = useCallback((id: string) => {
+    setActive(id);
+  }, []);
 
   return (
     <section className="paddings" id="explore">
       <motion.div
-        variants={staggerContainer(0.15, 0.2)} // Adjusted for smoother stagger
+        variants={staggerContainer({
+          staggerChildren: 0.1,
+          delayChildren: 0.1,
+        })}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.3 }} // Trigger animations earlier and only once
+        viewport={{ once: true, amount: 0.25 }}
         className="innerWidth mx-auto flex flex-col"
       >
         <TypingText title="Scenes" textStyles="text-center" />
@@ -51,7 +43,15 @@ const Explore: React.FC = () => {
           textStyles="text-center"
         />
         <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
-          {worlds}
+          {exploreWorlds.map((world: World, index: number) => (
+            <ExploreCard
+              key={world.id}
+              {...world}
+              index={index}
+              active={active}
+              handleClick={handleCardClick}
+            />
+          ))}
         </div>
       </motion.div>
     </section>

@@ -1,18 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
-
 import { StartSteps, TitleText, TypingText } from "../components";
 import { staggerContainer, fadeIn, sceneVariants } from "../utils/motion";
 import { startingnfo } from "../../../constants";
 
-const GetStarted: React.FC = () => (
+const GetStarted = () => (
   <section className="paddings relative z-10">
     <motion.div
-      variants={staggerContainer(0.1, 0.15)} // Slightly quicker stagger timing for a smoother flow
+      variants={staggerContainer({
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      })}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.3 }} // Triggering animation earlier and once
+      viewport={{ once: true, amount: 0.25 }}
       className="innerWidth mx-auto flex lg:flex-row flex-col gap-8"
     >
       <motion.div
@@ -26,7 +28,11 @@ const GetStarted: React.FC = () => (
         />
       </motion.div>
       <motion.div
-        variants={fadeIn("left", "tween", 0.3, 1)} // Shortened delay to feel more fluid
+        variants={fadeIn({
+          direction: "left",
+          type: "tween",
+          delay: 0.2,
+        })}
         className="flex-[0.75] flex justify-center flex-col"
       >
         <TypingText title="How we work?" />

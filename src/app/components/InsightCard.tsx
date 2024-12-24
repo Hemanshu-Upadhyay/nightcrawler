@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { fadeIn } from "../utils/motion";
-import React from "react";
 
 type InsightCardProps = {
   imgUrl: string;
@@ -11,14 +10,13 @@ type InsightCardProps = {
   index: number;
 };
 
-const InsightCard: React.FC<InsightCardProps> = ({
-  imgUrl,
-  title,
-  subtitle,
-  index,
-}) => (
+const InsightCard = ({ imgUrl, title, subtitle, index }: InsightCardProps) => (
   <motion.div
-    variants={fadeIn("up", "spring", index * 0.5, 1)}
+    variants={fadeIn({
+      direction: "up",
+      type: "spring",
+      delay: index * 0.3,
+    })}
     className="flex flex-col gap-4 md:flex-row"
   >
     <img

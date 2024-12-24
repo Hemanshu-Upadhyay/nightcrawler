@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { fadeIn } from "../utils/motion";
-import { useMediaQuery } from "react-responsive"; // To detect mobile devices
+import { useMediaQuery } from "react-responsive";
 
 interface ExploreCardProps {
   id: string;
@@ -14,7 +14,7 @@ interface ExploreCardProps {
   description: string;
 }
 
-const ExploreCard: React.FC<ExploreCardProps> = ({
+const ExploreCard = ({
   id,
   imgUrl,
   title,
@@ -22,33 +22,32 @@ const ExploreCard: React.FC<ExploreCardProps> = ({
   active,
   handleClick,
   description,
-}) => {
-  // Detect if the device is mobile
+}: ExploreCardProps) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
-
-  // Optimized transition for mobile devices
-  const animationDuration = isMobile ? 0.5 : 0.7; // Shorter animation for mobile
-  const animationStiffness = isMobile ? 150 : 200; // Lower stiffness for mobile
 
   return (
     <motion.div
-      variants={fadeIn("right", "spring", index * 0.5, 0.75)}
-      initial={{ flex: 1 }} // Start with a normal flex value
+      variants={fadeIn({
+        direction: "right",
+        type: "spring",
+        delay: index * 0.3, // Reduced from 0.5
+      })}
+      initial={{ flex: 1 }}
       animate={{
-        flex: active === id ? 6 : 1, // Slightly increase flex size when active, for a better visual effect
+        flex: active === id ? 4 : 1, // Reduced from 6 for smoother transitions
       }}
       transition={{
         type: "spring",
-        stiffness: animationStiffness,
-        damping: 30,
-        duration: animationDuration,
+        stiffness: isMobile ? 120 : 150, // Reduced values
+        damping: 25,
+        duration: isMobile ? 0.4 : 0.5, // Faster transitions
       }}
-      className={`relative flex items-center justify-center min-w-[170px] h-[500px] cursor-pointer`} // Adjusted height for better appearance
+      className="relative flex items-center justify-center min-w-[170px] h-[500px] cursor-pointer"
       onClick={() => handleClick(id)}
     >
       <img
         src={imgUrl}
-        alt="planet-04"
+        alt={title}
         className="absolute w-full h-full object-cover rounded-[24px]"
       />
       {active !== id ? (
@@ -56,11 +55,11 @@ const ExploreCard: React.FC<ExploreCardProps> = ({
           {title}
         </h3>
       ) : (
-        <div className="absolute bottom-0 p-8 flex justify-start w-full flex-col rounded-b-[24px]">
-          <p className="font-mono text-[16px] leading-[20.16px] text-white uppercase">
+        <div className="absolute bottom-0 p-8 flex justify-start w-full flex-col bg-gradient-to-t from-black/60 rounded-b-[24px]">
+          <p className="font-mono text-[16px] leading-[20px] text-white uppercase">
             {description}
           </p>
-          <h2 className="mt-[24px] font-semibold sm:text-[32px] text-[24px] text-white">
+          <h2 className="mt-6 font-semibold sm:text-[32px] text-[24px] text-white">
             {title}
           </h2>
         </div>

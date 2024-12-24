@@ -1,4 +1,25 @@
-export const slideIn = (direction, type, delay, duration) => ({
+import { Variants } from "framer-motion";
+
+type Direction = "left" | "right" | "up" | "down";
+type TransitionType = "spring" | "tween" | "keyframes";
+
+interface TransitionProps {
+  type?: TransitionType;
+  delay?: number;
+  duration?: number;
+  ease?: string;
+  stiffness?: number;
+  damping?: number;
+  staggerChildren?: number;
+  delayChildren?: number;
+}
+
+export const slideIn = (
+  direction: Direction,
+  type: TransitionType,
+  delay: number,
+  duration: number
+): Variants => ({
   hidden: {
     x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
     y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
@@ -15,7 +36,10 @@ export const slideIn = (direction, type, delay, duration) => ({
   },
 });
 
-export const staggerContainer = (staggerChildren, delayChildren) => ({
+export const staggerContainer = (
+  staggerChildren: number,
+  delayChildren: number
+): Variants => ({
   hidden: {},
   show: {
     transition: {
@@ -25,7 +49,7 @@ export const staggerContainer = (staggerChildren, delayChildren) => ({
   },
 });
 
-export const textVariant = (delay) => ({
+export const textVariant = (delay: number): Variants => ({
   hidden: {
     y: 50,
     opacity: 0,
@@ -41,17 +65,17 @@ export const textVariant = (delay) => ({
   },
 });
 
-export const textContainer = {
+export const textContainer: Variants = {
   hidden: {
     opacity: 0,
   },
-  show: (i = 1) => ({
+  show: (i: number = 1) => ({
     opacity: 1,
     transition: { staggerChildren: 0.1, delayChildren: i * 0.1 },
   }),
 };
 
-export const navVariants = {
+export const navVariants: Variants = {
   hidden: {
     opacity: 0,
     y: -50,
@@ -71,3 +95,42 @@ export const navVariants = {
     },
   },
 };
+
+export const textVariant2: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "tween",
+      ease: "easeIn",
+    },
+  },
+};
+
+export const fadeIn = (
+  direction: Direction,
+  type: TransitionType,
+  delay: number,
+  duration: number
+): Variants => ({
+  hidden: {
+    x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
+    y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
+    opacity: 0,
+  },
+  show: {
+    x: 0,
+    y: 0,
+    opacity: 1,
+    transition: {
+      type,
+      delay,
+      duration,
+      ease: "easeOut",
+    },
+  },
+});

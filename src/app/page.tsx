@@ -5,10 +5,12 @@ import Hero from "./sections/Hero";
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <h1>Hello World</h1>
-      <Hero />
-      <Footer />
+      <div className="bg-black overflow-hidden">
+        <Navbar />
+        <Hero />
+
+        <Footer />
+      </div>
     </>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
-import { staggerContainer } from "../utils/motion";
+
 import { ExploreCard, TitleText, TypingText } from "../components";
+import { AnimatedElement } from "../components/AnimatedElement";
 import { exploreWorlds } from "../../../constants";
+import { staggerContainer } from "../utils/motion";
 
 interface World {
   id: string;
@@ -22,15 +23,13 @@ const Explore = () => {
 
   return (
     <section className="paddings" id="explore">
-      <motion.div
+      <AnimatedElement
         variants={staggerContainer({
-          staggerChildren: 0.1,
-          delayChildren: 0.1,
+          staggerChildren: 0.05, // Reduced for snappier overall effect
+          delayChildren: 0.05,
         })}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
         className="innerWidth mx-auto flex flex-col"
+        viewport={{ once: true, amount: 0.25 }}
       >
         <TypingText title="Scenes" textStyles="text-center" />
         <TitleText
@@ -50,10 +49,11 @@ const Explore = () => {
               index={index}
               active={active}
               handleClick={handleCardClick}
+              description={world.description}
             />
           ))}
         </div>
-      </motion.div>
+      </AnimatedElement>
     </section>
   );
 };

@@ -1,21 +1,31 @@
 import { Variants } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 
 type Direction = "left" | "right" | "up" | "down";
-type TransitionType = "tween" | "spring"; // Removed rarely used 'keyframes'
+type TransitionType = "tween" | "spring";
 
-// Shared transition configurations
-const sharedTransition = {
-  duration: 0.5, // Reduced from 0.8
-  ease: "easeOut",
+// Optimized base configurations
+const baseTransition = {
+  duration: 0.3, // Reduced for snappier feedback
+  ease: [0.25, 0.1, 0.25, 1], // Custom cubic-bezier for smoother motion
 };
 
-const sharedSpringConfig = {
+const baseSpringConfig = {
   type: "spring" as TransitionType,
-  stiffness: 100,
-  damping: 20,
+  stiffness: 300, // Increased for snappier response
+  damping: 30, // Increased for less oscillation
+  mass: 0.5, // Reduced mass for lighter feel
 };
 
-// Combined interface for all transition types
+// Reduced motion variants
+const reducedMotionVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { duration: 0.2 },
+  },
+};
+
 interface AnimationConfig {
   direction?: Direction;
   type?: TransitionType;
@@ -25,33 +35,51 @@ interface AnimationConfig {
   delayChildren?: number;
 }
 
-// Helper function to calculate offset based on direction
-const getDirectionalOffset = (direction: Direction, value: number = 50) => ({
+// Optimized directional offset calculation
+const getDirectionalOffset = (direction: Direction, value: number = 20) => ({
+  // Reduced offset
   x: direction === "left" ? -value : direction === "right" ? value : 0,
-  y: direction === "up" ? value : direction === "down" ? -value : 0,
+  y: direction === "up" ? -value : direction === "down" ? value : 0,
+});
+
+// Hardware acceleration wrapper
+const withAcceleration = (variants: Variants): Variants => ({
+  ...variants,
+  initial: {
+    ...variants.hidden,
+    willChange: "transform, opacity",
+  },
+  animate: {
+    ...variants.show,
+    willChange: "transform, opacity",
+  },
 });
 
 // Optimized slide animation
 export const slideIn = ({
   direction,
-  type = "tween",
+  type = "spring",
   delay = 0,
-}: AnimationConfig): Variants => ({
-  hidden: getDirectionalOffset(direction!, 50),
-  show: {
-    x: 0,
-    y: 0,
-    transition: {
-      ...sharedTransition,
-      type,
-      delay,
+}: AnimationConfig): Variants =>
+  withAcceleration({
+    hidden: {
+      ...getDirectionalOffset(direction!),
+      opacity: 0,
     },
-  },
-});
+    show: {
+      x: 0,
+      y: 0,
+      opacity: 1,
+      transition:
+        type === "spring"
+          ? { ...baseSpringConfig, delay }
+          : { ...baseTransition, delay },
+    },
+  });
 
 // Optimized stagger container
 export const staggerContainer = ({
-  staggerChildren = 0.1,
+  staggerChildren = 0.05, // Reduced stagger time
   delayChildren = 0,
 }: AnimationConfig = {}): Variants => ({
   hidden: {},
@@ -64,130 +92,136 @@ export const staggerContainer = ({
 });
 
 // Optimized text variant
-export const textVariant = (delay: number = 0): Variants => ({
-  hidden: {
-    y: 20, // Reduced from 30
-    opacity: 0,
-  },
-  show: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      ...sharedTransition,
-      delay,
+export const textVariant = (delay: number = 0): Variants =>
+  withAcceleration({
+    hidden: {
+      y: 10, // Reduced distance
+      opacity: 0,
     },
-  },
-});
+    show: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        ...baseTransition,
+        delay,
+      },
+    },
+  });
 
 // Optimized fade in
 export const fadeIn = ({
   direction = "up",
-  type = "tween",
+  type = "spring",
   delay = 0,
-}: AnimationConfig = {}): Variants => ({
-  hidden: {
-    ...getDirectionalOffset(direction, 30), // Reduced from 50
-    opacity: 0,
-  },
-  show: {
-    x: 0,
-    y: 0,
-    opacity: 1,
-    transition: {
-      ...sharedTransition,
-      type,
-      delay,
+}: AnimationConfig = {}): Variants =>
+  withAcceleration({
+    hidden: {
+      ...getDirectionalOffset(direction, 15), // Reduced movement
+      opacity: 0,
     },
-  },
-});
+    show: {
+      x: 0,
+      y: 0,
+      opacity: 1,
+      transition:
+        type === "spring"
+          ? { ...baseSpringConfig, delay }
+          : { ...baseTransition, delay },
+    },
+  });
 
 // Optimized zoom in
-export const zoomIn = (delay: number = 0): Variants => ({
-  hidden: {
-    scale: 0.9, // Changed from 0.8 for smoother scaling
-    opacity: 0,
-  },
-  show: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      ...sharedTransition,
-      delay,
+export const zoomIn = (delay: number = 0): Variants =>
+  withAcceleration({
+    hidden: {
+      scale: 0.95, // Smaller scale change
+      opacity: 0,
     },
-  },
-});
+    show: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        ...baseSpringConfig,
+        delay,
+      },
+    },
+  });
 
 // Optimized nav variants
-export const navVariants: Variants = {
+export const navVariants: Variants = withAcceleration({
   hidden: {
     opacity: 0,
-    y: -20, // Reduced from -30
-    transition: sharedSpringConfig,
+    y: -10, // Reduced movement
+    transition: baseSpringConfig,
   },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      ...sharedSpringConfig,
-      delay: 0.3, // Reduced from 0.5
+      ...baseSpringConfig,
+      delay: 0.1, // Reduced delay
     },
   },
-};
+});
 
 // Optimized footer variants
-export const footerVariants: Variants = {
+export const footerVariants: Variants = withAcceleration({
   hidden: {
     opacity: 0,
-    y: 20, // Reduced from 30
-    transition: sharedTransition,
+    y: 10, // Reduced movement
+    transition: baseTransition,
   },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      ...sharedTransition,
-      delay: 0.3, // Reduced from 0.5
+      ...baseTransition,
+      delay: 0.1, // Reduced delay
     },
   },
+});
+
+// Optimized scene variants
+
+export const sceneVariants = (direction: Direction): Variants =>
+  withAcceleration({
+    hidden: {
+      x: direction === "left" ? "-15%" : "15%", // Reduced movement
+      rotate: 15, // Reduced rotation
+      opacity: 0,
+    },
+    show: {
+      x: 0,
+      rotate: 0,
+      opacity: 1,
+      transition: {
+        ...baseSpringConfig,
+        stiffness: 200,
+        damping: 25,
+      },
+    },
+  });
+export const sceneVariant2 = (direction: Direction): Variants =>
+  withAcceleration({
+    hidden: {
+      x: direction === "left" ? "-15%" : "15%", // Reduced movement
+      rotate: 15, // Reduced rotation
+      opacity: 0,
+    },
+    show: {
+      x: 0,
+      rotate: 0,
+      opacity: 1,
+      transition: {
+        ...baseSpringConfig,
+        stiffness: 200,
+        damping: 25,
+      },
+    },
+  });
+
+// Hook to handle reduced motion preference
+export const useOptimizedAnimations = (variants: Variants): Variants => {
+  const prefersReducedMotion = useReducedMotion();
+  return prefersReducedMotion ? reducedMotionVariants : variants;
 };
-
-// Combined scene variants (removed duplicate sceneVariant2)
-export const sceneVariants = (direction: Direction): Variants => ({
-  hidden: {
-    x: direction === "left" ? "-30%" : "30%", // Reduced from 50%
-    rotate: 45, // Reduced from 90
-    opacity: 0,
-  },
-  show: {
-    x: 0,
-    rotate: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      duration: 0.8, // Reduced from 1.2
-      delay: 0.1, // Reduced from 0.2
-      stiffness: 80, // Reduced from 100
-      damping: 15, // Adjusted for smoother animation
-    },
-  },
-});
-
-export const sceneVariant2 = (direction: Direction): Variants => ({
-  hidden: {
-    x: direction === "left" ? "-50%" : "50%",
-    rotate: 90, // Reduced rotation angle for smoother rendering
-    opacity: 0, // Adding opacity for a more natural hidden state
-  },
-  show: {
-    x: 0,
-    rotate: 0,
-    opacity: 1, // Ensuring the element fades in smoothly
-    transition: {
-      type: "spring",
-      duration: 1.2, // Reduced duration for faster transitions
-      delay: 0.2, // Keep a slight delay for staging
-      stiffness: 100, // Lowered stiffness for smoother animation
-      damping: 20, // Increased damping to avoid overshooting
-    },
-  },
-});

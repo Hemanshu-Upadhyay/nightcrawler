@@ -134,3 +134,73 @@ export const fadeIn = (
     },
   },
 });
+
+export const sceneVariants = (direction: Direction): Variants => ({
+  hidden: {
+    x: direction === "left" ? "-100%" : "50%",
+    rotate: 120,
+  },
+  show: {
+    x: 0,
+    rotate: 0,
+    transition: {
+      type: "spring",
+      duration: 1.8,
+      delay: 0.2,
+    },
+  },
+});
+
+export const sceneVariant2 = (direction: Direction): Variants => ({
+  hidden: {
+    opacity: 0,
+    rotate: 120,
+  },
+  show: {
+    opacity: 1,
+    rotate: 0,
+    transition: {
+      type: "spring",
+      duration: 1.8,
+      delay: 0.2,
+    },
+  },
+});
+
+export const zoomIn = (delay: number, duration: number): Variants => ({
+  hidden: {
+    scale: 0,
+    opacity: 0,
+  },
+  show: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: "tween",
+      delay,
+      duration,
+      ease: "easeOut",
+    },
+  },
+});
+
+export const footerVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 50,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 140,
+    },
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 80,
+      delay: 0.5,
+    },
+  },
+};

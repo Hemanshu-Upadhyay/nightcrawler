@@ -35,3 +35,60 @@ export const exploreWorlds = [
       "Flashing lights. The sign of a story in progress. Get in position before the scene fades away.",
   },
 ];
+
+export const startingnfo = [
+  "Find the story that’s breaking and waiting to be captured",
+  "Get into position and make sure your footage is everything—no room for mistakes",
+  "No hesitation—stay sharp, stay focused, and let the chaos unfold before you",
+];
+
+export const newFeatures = [
+  {
+    imgUrl: "/camera.svg",
+    title: "A new story",
+    subtitle:
+      "The latest update brings you access to fresh, unreported stories just waiting for you to capture. No one is safe from your lens.",
+  },
+  {
+    imgUrl: "/nightvision.svg",
+    title: "Sharper focus",
+    subtitle:
+      "In this update, your vision is sharper, capturing every detail in the dark corners of the city—bringing a new level of realism to the chaos.",
+  },
+];
+
+export const insights = [
+  {
+    imgUrl: "/camera.png",
+    title: "The rise of Nightcrawler journalism rattles the media world",
+    subtitle:
+      "The world is now obsessed with raw, unfiltered footage. Traditional news outlets are scrambling to catch up with the new breed of reporting.",
+  },
+  {
+    imgUrl: "/chase.png",
+    title: "5 tips to thrive in the fast-paced world of crime journalism",
+    subtitle:
+      "Get ready for the chase. Learn how to capture the heart-pounding moments that no one else dares to. Speed, precision, and nerve are your tools.",
+  },
+  {
+    imgUrl: "/camera2.png",
+    title: "With one camera, you can expose the city’s deepest secrets",
+    subtitle:
+      "The world is full of stories waiting to be told. With your camera, you can break news faster than anyone—uncovering truths that others are too scared to reveal.",
+  },
+];
+
+export const socials = [
+  {
+    name: "linkedin",
+    url: "/linkedin.svg",
+  },
+  {
+    name: "instagram",
+    url: "/instagram.svg",
+  },
+  {
+    name: "facebook",
+    url: "/facebook.svg",
+  },
+];

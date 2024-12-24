@@ -26,7 +26,7 @@ const Explore: React.FC = () => {
         viewport={{ once: false, amount: 0.25 }}
         className={`${"innerWidth"} mx-auto flex flex-col`}
       >
-        <TypingText title="| The World" textStyles="text-center" />
+        <TypingText title="Scenes" textStyles="text-center" />
         <TitleText
           title={
             <>

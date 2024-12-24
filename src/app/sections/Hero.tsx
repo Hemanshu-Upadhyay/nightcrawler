@@ -6,8 +6,7 @@ import { slideIn, staggerContainer, textVariant } from "../utils/motion";
 const Hero = () => (
   <section className={`$ "yPaddings" sm:pl-16 pl-6`}>
     <motion.div
-      // @ts-ignore
-      variants={staggerContainer}
+      variants={staggerContainer(0.1, 0.1)}
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}

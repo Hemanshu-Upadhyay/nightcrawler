@@ -18,7 +18,10 @@ const About = () => (
       viewport={{ once: false, amount: 0.25 }}
       className={`${"innerWidth"} mx-auto ${"flexCenter"} flex-col`}
     >
-      <TypingText title="| About Metaversus" textStyles="text-center" />
+      <TypingText
+        title="About Nightcrawlers"
+        textStyles="text-center text-gray-400"
+      />
 
       <motion.p
         variants={fadeIn("up", "tween", 0.2, 1)}

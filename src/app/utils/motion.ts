@@ -16,13 +16,13 @@ interface TransitionProps {
 
 export const slideIn = (
   direction: Direction,
-  type: TransitionType,
-  delay: number,
-  duration: number
+  type: TransitionType = "tween",
+  delay: number = 0,
+  duration: number = 0.8
 ): Variants => ({
   hidden: {
-    x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
-    y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
+    x: direction === "left" ? "-50%" : direction === "right" ? "50%" : 0,
+    y: direction === "up" ? "50%" : direction === "down" ? "-50%" : 0,
   },
   show: {
     x: 0,
@@ -37,8 +37,8 @@ export const slideIn = (
 });
 
 export const staggerContainer = (
-  staggerChildren: number,
-  delayChildren: number
+  staggerChildren: number = 0.1,
+  delayChildren: number = 0
 ): Variants => ({
   hidden: {},
   show: {
@@ -49,77 +49,32 @@ export const staggerContainer = (
   },
 });
 
-export const textVariant = (delay: number): Variants => ({
+export const textVariant = (delay: number = 0): Variants => ({
   hidden: {
-    y: 50,
+    y: 30,
     opacity: 0,
   },
   show: {
     y: 0,
     opacity: 1,
     transition: {
-      type: "spring",
-      duration: 1.25,
+      type: "tween",
+      duration: 0.8,
       delay,
+      ease: "easeOut",
     },
   },
 });
 
-export const textContainer: Variants = {
-  hidden: {
-    opacity: 0,
-  },
-  show: (i: number = 1) => ({
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: i * 0.1 },
-  }),
-};
-
-export const navVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: -50,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 140,
-    },
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 80,
-      delay: 1,
-    },
-  },
-};
-
-export const textVariant2: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "tween",
-      ease: "easeIn",
-    },
-  },
-};
-
 export const fadeIn = (
-  direction: Direction,
-  type: TransitionType,
-  delay: number,
-  duration: number
+  direction: Direction = "up",
+  type: TransitionType = "tween",
+  delay: number = 0,
+  duration: number = 0.8
 ): Variants => ({
   hidden: {
-    x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
-    y: direction === "up" ? 100 : direction === "down" ? -100 : 0,
+    x: direction === "left" ? 50 : direction === "right" ? -50 : 0,
+    y: direction === "up" ? 50 : direction === "down" ? -50 : 0,
     opacity: 0,
   },
   show: {
@@ -135,41 +90,12 @@ export const fadeIn = (
   },
 });
 
-export const sceneVariants = (direction: Direction): Variants => ({
+export const zoomIn = (
+  delay: number = 0,
+  duration: number = 0.8
+): Variants => ({
   hidden: {
-    x: direction === "left" ? "-100%" : "50%",
-    rotate: 120,
-  },
-  show: {
-    x: 0,
-    rotate: 0,
-    transition: {
-      type: "spring",
-      duration: 1.8,
-      delay: 0.2,
-    },
-  },
-});
-
-export const sceneVariant2 = (direction: Direction): Variants => ({
-  hidden: {
-    opacity: 0,
-    rotate: 120,
-  },
-  show: {
-    opacity: 1,
-    rotate: 0,
-    transition: {
-      type: "spring",
-      duration: 1.8,
-      delay: 0.2,
-    },
-  },
-});
-
-export const zoomIn = (delay: number, duration: number): Variants => ({
-  hidden: {
-    scale: 0,
+    scale: 0.8,
     opacity: 0,
   },
   show: {
@@ -184,14 +110,14 @@ export const zoomIn = (delay: number, duration: number): Variants => ({
   },
 });
 
-export const footerVariants: Variants = {
+export const navVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 50,
+    y: -30,
     transition: {
       type: "spring",
-      stiffness: 300,
-      damping: 140,
+      stiffness: 150,
+      damping: 20,
     },
   },
   show: {
@@ -199,8 +125,71 @@ export const footerVariants: Variants = {
     y: 0,
     transition: {
       type: "spring",
-      stiffness: 80,
+      stiffness: 120,
+      damping: 25,
       delay: 0.5,
     },
   },
 };
+
+export const footerVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+    transition: {
+      type: "tween",
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "tween",
+      duration: 0.8,
+      ease: "easeOut",
+      delay: 0.5,
+    },
+  },
+};
+
+export const sceneVariants = (direction: Direction): Variants => ({
+  hidden: {
+    x: direction === "left" ? "-50%" : "50%",
+    rotate: 90, // Reduced rotation angle for smoother rendering
+    opacity: 0, // Adding opacity for a more natural hidden state
+  },
+  show: {
+    x: 0,
+    rotate: 0,
+    opacity: 1, // Ensuring the element fades in smoothly
+    transition: {
+      type: "spring",
+      duration: 1.2, // Reduced duration for faster transitions
+      delay: 0.2, // Keep a slight delay for staging
+      stiffness: 100, // Lowered stiffness for smoother animation
+      damping: 20, // Increased damping to avoid overshooting
+    },
+  },
+});
+
+export const sceneVariant2 = (direction: Direction): Variants => ({
+  hidden: {
+    x: direction === "left" ? "-50%" : "50%",
+    rotate: 90, // Reduced rotation angle for smoother rendering
+    opacity: 0, // Adding opacity for a more natural hidden state
+  },
+  show: {
+    x: 0,
+    rotate: 0,
+    opacity: 1, // Ensuring the element fades in smoothly
+    transition: {
+      type: "spring",
+      duration: 1.2, // Reduced duration for faster transitions
+      delay: 0.2, // Keep a slight delay for staging
+      stiffness: 100, // Lowered stiffness for smoother animation
+      damping: 20, // Increased damping to avoid overshooting
+    },
+  },
+});

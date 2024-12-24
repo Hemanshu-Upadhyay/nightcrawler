@@ -1,16 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer, zoomIn } from "../utils/motion";
+import { fadeIn, staggerContainer } from "../utils/motion";
 
 const Feedback = () => (
-  <section className={`${"paddings"}`}>
+  <section className="paddings">
     <motion.div
-      variants={staggerContainer(0.1, 0.1)}
+      variants={staggerContainer(0.15, 0.25)} // Reduced delay for smoother stagger
       initial="hidden"
       whileInView="show"
-      viewport={{ once: false, amount: 0.25 }}
-      className={`${"innerWidth"} mx-auto flex lg:flex-row flex-col gap-6`}
+      viewport={{ once: true, amount: 0.3 }} // Trigger animations earlier and only once
+      className="innerWidth mx-auto flex lg:flex-row flex-col gap-6"
     >
       <motion.div
         variants={fadeIn("right", "tween", 0.2, 1)}

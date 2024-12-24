@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
 import { staggerContainer } from "../utils/motion";
@@ -17,14 +17,28 @@ interface World {
 const Explore: React.FC = () => {
   const [active, setActive] = useState<string>("world-2");
 
+  const worlds = useMemo(
+    () =>
+      exploreWorlds.map((world: World, index: number) => (
+        <ExploreCard
+          key={world.id}
+          {...world}
+          index={index}
+          active={active}
+          handleClick={setActive}
+        />
+      )),
+    [active]
+  );
+
   return (
-    <section className={`${"paddings"}`} id="explore">
+    <section className="paddings" id="explore">
       <motion.div
-        variants={staggerContainer(0.1, 0.1)}
+        variants={staggerContainer(0.15, 0.2)} // Adjusted for smoother stagger
         initial="hidden"
         whileInView="show"
-        viewport={{ once: false, amount: 0.25 }}
-        className={`${"innerWidth"} mx-auto flex flex-col`}
+        viewport={{ once: true, amount: 0.3 }} // Trigger animations earlier and only once
+        className="innerWidth mx-auto flex flex-col"
       >
         <TypingText title="Scenes" textStyles="text-center" />
         <TitleText
@@ -37,16 +51,7 @@ const Explore: React.FC = () => {
           textStyles="text-center"
         />
         <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
-          {exploreWorlds.map((world: World, index: number) => (
-            <ExploreCard
-              key={world.id}
-              {...world}
-              index={index}
-              active={active}
-              handleClick={setActive}
-              description={world.description}
-            />
-          ))}
+          {worlds}
         </div>
       </motion.div>
     </section>

@@ -2,21 +2,21 @@
 
 import { motion } from "framer-motion";
 import { TypingText } from "../components";
-
 import { fadeIn, staggerContainer } from "../utils/motion";
 
-const boldify = (text: string) => {
-  return <span className="font-extrabold text-white">{text}</span>;
-};
+const boldify = (text: string) => (
+  <span className="font-extrabold text-white">{text}</span>
+);
+
 const About = () => (
-  <section className={`${"paddings"} relative z-10`}>
+  <section className="paddings relative z-10">
     <div className="gradient-02 z-0" />
     <motion.div
-      variants={staggerContainer(0.1, 0.1)}
+      variants={staggerContainer(0.15, 0.2)} // Slightly increased delays for smoother stagger
       initial="hidden"
       whileInView="show"
-      viewport={{ once: false, amount: 0.25 }}
-      className={`${"innerWidth"} mx-auto ${"flexCenter"} flex-col`}
+      viewport={{ once: true, amount: 0.3 }} // Reduced viewport trigger for better visibility
+      className="innerWidth mx-auto flexCenter flex-col"
     >
       <TypingText
         title="About Nightcrawlers"
@@ -24,8 +24,8 @@ const About = () => (
       />
 
       <motion.p
-        variants={fadeIn("up", "tween", 0.2, 1)}
-        className="mt-[8px] font-normal sm:text-[32px] text-[20px] text-center   text-gray-400"
+        variants={fadeIn("up", "tween", 0.15, 0.8)} // Reduced delay and duration
+        className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-gray-400"
       >
         <span className="font-extrabold text-white">Nightcrawling</span> is not
         it’s an opportunity to {boldify("Capture")} the chaos and turn it into
@@ -36,7 +36,7 @@ const About = () => (
       </motion.p>
 
       <motion.img
-        variants={fadeIn("up", "tween", 0.3, 1)}
+        variants={fadeIn("up", "tween", 0.2, 0.8)} // Adjusted delay and duration for quicker transitions
         src="/arrow-down.svg"
         alt="arrow down"
         className="w-[18px] h-[28px] object-contain mt-[28px]"
